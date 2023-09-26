@@ -24,13 +24,13 @@ jobs:
         - docker build -t gabrielcancelliferreira/atpdevops:latest .
         - docker push gabrielcancelliferreira/atpdevops:latest
         - docker pull gabrielcancelliferreira/atpdevops:latest
-        -docker run -v $PWD/:/app/report/ gabrielcancelliferreira/atpdevops:latest
+        - docker run -v $PWD/:/app/report/ gabrielcancelliferreira/atpdevops:latest
 
 
     - stage: test
       script:
         - echo "teste"
-        - docker run -t ghcr.io/zaproxy/zaproxy:stable zap-full-scan.py -t https://aptdevops.netlify.app/ 2> /dev/null; (($? == 2)) && echo 'Done' >&2
+        - docker run -t ghcr.io/zaproxy/zaproxy:stable zap-full-scan.py -t https://gabrieldevops.netlify.app/ 2> /dev/null; (($? == 2)) && echo 'Done' >&2
 
 
     - stage: deploy
