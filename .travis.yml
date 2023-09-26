@@ -1,43 +1,38 @@
 language: bash
 
 services:
-  
-docker
+  - docker
 
 node_js:
-  
-11.6.0
+  - 11.6.0
 
 cache: npm
 
 stages:
-  
-build
-test
-deploy
+  - build
+  - test
+  - deploy
 
 jobs:
   include:
-    
-stage: build
-    install:
-sudo apt-get install npm  # Instala o npm
-npm install              # Instala as dependências do projeto
-script:
-docker login -u gabrielcancelli2021@gmail.com -p testeteste
-docker build -t gabrielcancelliferreira/atpdevops:latest .
-docker push gabrielcancelliferreira/atpdevops:latest
-docker pull gabrielcancelliferreira/atpdevops:latest
-docker run -v $PWD/:/app/report/ gabrielcancelliferreira/atpdevops:latest
-
-    
-stage: test
-    script:
-echo "teste"
-#docker run -t ghcr.io/zaproxy/zaproxy:stable zap-full-scan.py -t https://aptdevops.netlify.app/ 2> /dev/null; (($? == 2)) && echo 'Done' >&2
+    - stage: build
+      install:
+        - sudo apt-get install npm  # Instala o npm
+        - npm install              # Instala as dependências do projeto
+      script:
+        - docker login -u gabrielcancelli2021@gmail.com -p testeteste
+        - docker build -t gabrielcancelliferreira/atpdevops:latest .
+        - docker push gabrielcancelliferreira/atpdevops:latest
+        - docker pull gabrielcancelliferreira/atpdevops:latest
+        - docker run -v $PWD/:/app/report/ gabrielcancelliferreira/atpdevops:latest
 
 
-    
-stage: deploy
-    script:
-bash ./telegram_notification.sh success
+    - stage: test
+      script:
+        - echo "teste"
+        - docker run -t ghcr.io/zaproxy/zaproxy:stable zap-full-scan.py -t https://aptdevops.netlify.app/ 2> /dev/null; (($? == 2)) && echo 'Done' >&2
+
+
+    - stage: deploy
+      script:
+        - bash ./telegram_notification.sh success
