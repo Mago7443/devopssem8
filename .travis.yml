@@ -4,7 +4,7 @@ services:
   - docker
 
 node_js:
-  - 11.6.0
+  - 18.17.1
 
 cache: npm
 
@@ -16,12 +16,15 @@ stages:
 jobs:
   include:
     - stage: build
+      install:
+        - sudo apt-get install npm  # Instala o npm
+        - npm install              # Instala as dependências do projeto
       script:
         - docker login -u gabrielcancelli2021@gmail.com -p testeteste
         - docker build -t gabrielcancelliferreira/atpdevops:latest .
         - docker push gabrielcancelliferreira/atpdevops:latest
         - docker pull gabrielcancelliferreira/atpdevops:latest
-        - docker run -v $PWD/:/app/report/ gabrielcancelliferreira/atpdevops:latest
+        -docker run -v $PWD/:/app/report/ gabrielcancelliferreira/atpdevops:latest
 
 
     - stage: test

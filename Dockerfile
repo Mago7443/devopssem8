@@ -1,5 +1,5 @@
 #Seleciona a imagem base
-FROM node:11.6.0
+FROM node:18.17.1
 #Define o diretório
 WORKDIR /app
 COPY . /app
